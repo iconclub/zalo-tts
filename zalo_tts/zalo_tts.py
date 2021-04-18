@@ -5,9 +5,6 @@ import urllib.request
 import wave
 
 import pyaudio
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class ZaloTTS:
