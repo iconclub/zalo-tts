@@ -1,2 +1,0 @@
-PyAudio==0.2.11
-python-dotenv==0.17.0

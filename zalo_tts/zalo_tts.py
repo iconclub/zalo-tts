@@ -1,7 +1,9 @@
 import json
 import os
+import time
 import urllib.parse
 import urllib.request
+import urllib.error
 import wave
 
 import pyaudio
@@ -75,7 +77,11 @@ class ZaloTTS:
             filepath (str, optional): path of the audio file. Defaults to 'audio.wav'.
         """
         url_audio = self._get_streaming_url(text)
-        response = urllib.request.urlopen(url=url_audio)
+        try:
+            response = urllib.request.urlopen(url=url_audio)
+        except urllib.error.HTTPError:
+            time.sleep(1)
+            response = urllib.request.urlopen(url=url_audio)
         file = open(filepath, 'wb')
         file.write(response.read())
         file.close()
@@ -107,7 +113,11 @@ class ZaloTTS:
             text (str): text content to synthesize
         """
         url_audio = self._get_streaming_url(text)
-        response = urllib.request.urlopen(url=url_audio)
+        try:
+            response = urllib.request.urlopen(url=url_audio)
+        except urllib.error.HTTPError:
+            time.sleep(1)
+            response = urllib.request.urlopen(url=url_audio)
         p = pyaudio.PyAudio()
         stream = p.open(format=p.get_format_from_width(self._SAMPWIDTH),
                         channels=self._NCHANNELS,
